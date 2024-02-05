@@ -6,3 +6,6 @@
 - 检查IPTV源（简单的URL测试）
 - 简单的修改：删除不联通、删除重复（简单保留第一个）
 - 重新生成并下载新的IPTV源
+
+## 示例
+https://nonylee.github.io/iptv-checker-example
