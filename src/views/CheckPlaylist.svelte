@@ -6,8 +6,9 @@
     import { onDestroy } from "svelte"
     import { IPTVGroup } from '../lib/group';
     import ControlPanel from './ControlPanel.svelte';
-    import {M3uParser, M3uPlaylist} from 'm3u-parser-generator';
+    import {M3uParser, M3uPlaylist, M3uMedia} from 'm3u-parser-generator';
     import { download } from '../lib/download';
+    import FlagButton from './FlagButton.svelte';
 
     let content = Cache.playlist || ""
     let filename = Cache.name || "playlist.m3u8"
@@ -72,8 +73,32 @@
     }
 
     function downloadPlaylist() {
-        playlist.medias = playlist.medias.filter(m => !(m as MediaItem).invalid)
+        let items: M3uMedia[] = []
+        if (groups.size == 0) {
+            return
+        }
+        groups.forEach((v, k) => {
+            items.push(...v.items.filter(m => !(m as MediaItem).invalid))
+        })
+        playlist.medias = items
+
         download(playlist.getM3uString(), filename)
+    }
+
+    function removeGroup(name: string) {
+        groups.delete(name)
+        groups = groups
+        if (currentGroup?.name === name) {
+            currentGroup = undefined
+        }
+    }
+
+    function removeItem(item: MediaItem) {
+        if (!currentGroup) {
+            return
+        }
+        currentGroup.items.splice(currentGroup.items.indexOf(item), 1)
+        currentGroup = currentGroup
     }
 
     $: processItems(unlinkActive, duplicationActive)
@@ -86,7 +111,10 @@
         {#if group.invalidCount < group.total}
             <button class="px-4 py-2 flex justify-between items-center {currentGroup == group ? 'bg-blue-400' : ''}" on:click={() => currentGroup = group}>
                 <span>{group.name}</span>
-                <span class="ml-4">{group.completedCount}/{group.total}</span>
+                <div class="flex items-center">
+                    <span class="mr-2">{group.completedCount}/{group.total}</span>
+                    <FlagButton on:click={() => removeGroup(group.name)}></FlagButton>
+                </div>
             </button>
         {/if}
         {/each}
@@ -99,10 +127,15 @@
                 <span>{item.name}</span>
                 {#if item.state == MediaItemState.Idle || item.state == MediaItemState.Checking}
                     <span class="icon-[eos-icons--bubble-loading] ml-4"></span>
-                {:else if item.state == MediaItemState.Success}
-                    <span class="icon-[mdi--check-circle-outline] bg-green-600"></span>
-                {:else if item.state == MediaItemState.Failure}
-                    <span class="icon-[el--error]  ml-4 text-red-600"></span>
+                {:else}
+                    <div class="flex items-center">
+                    {#if item.state == MediaItemState.Success}
+                    <span class="icon-[mdi--check-circle-outline] bg-green-600 text-xl mr-4"></span>
+                    {:else if item.state == MediaItemState.Failure}
+                    <span class="icon-[el--error] text-red-600 text-lg mr-4"></span>
+                    {/if}
+                    <FlagButton on:click={() => removeItem(item)}></FlagButton>
+                    </div>
                 {/if}
             </div>
         {/if}
