@@ -113,7 +113,9 @@
                 <span>{group.name}</span>
                 <div class="flex items-center">
                     <span class="mr-2">{group.completedCount}/{group.total}</span>
+                    {#if state == "completed"}
                     <FlagButton on:click={() => removeGroup(group.name)}></FlagButton>
+                    {/if}
                 </div>
             </button>
         {/if}
@@ -134,7 +136,9 @@
                     {:else if item.state == MediaItemState.Failure}
                     <span class="icon-[el--error] text-red-600 text-lg mr-4"></span>
                     {/if}
+                    {#if state == "completed"}
                     <FlagButton on:click={() => removeItem(item)}></FlagButton>
+                    {/if}
                     </div>
                 {/if}
             </div>
