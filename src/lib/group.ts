@@ -5,6 +5,8 @@ export class IPTVGroup {
     items: MediaItem[] = []
     private cntTotal: number = 0
 
+    draggable = false
+
     constructor(name: string) {
         this.name = name
     }

@@ -12,4 +12,5 @@ export enum MediaItemState {
 export declare interface MediaItem extends M3uMedia {
     state: MediaItemState,
     invalid: boolean
+    draggable: boolean
 }
