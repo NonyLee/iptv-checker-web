@@ -37,7 +37,7 @@
             currentGroup = currentGroup
         }
     }
-    // checker.run()
+    checker.run()
 
     onDestroy(() => {
         if (checker) checker.abort()
