@@ -1,9 +1,8 @@
-import { MediaItemState, type MediaItem } from "../types"
+import { MediaItem, MediaState } from "./mediaitem"
 
 export class IPTVGroup {
     readonly name: string
     items: MediaItem[] = []
-    private cntTotal: number = 0
 
     draggable = false
 
@@ -13,11 +12,10 @@ export class IPTVGroup {
 
     push(item: MediaItem) {
         this.items.push(item)
-        this.cntTotal = this.items.length
     }
 
     get total(): number {
-        return this.cntTotal
+        return this.items.length
     }
 
     get invalidCount(): number {
@@ -29,7 +27,7 @@ export class IPTVGroup {
 
     get completedCount(): number {
         return this.items.reduce((cnt, i) => {
-            cnt += (i.state == MediaItemState.Failure || i.state == MediaItemState.Success) ? 1 : 0
+            cnt += (i.state == MediaState.Failure || i.state == MediaState.Success) ? 1 : 0
             return cnt
         }, 0)
     }

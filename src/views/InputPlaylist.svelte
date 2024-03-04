@@ -59,8 +59,8 @@
     }
 </script>
 
-<div class="fixed top-0 w-full flex flex-col justify-center items-center">
-    <span class="bg-stone-200 p-4 rounded-b-lg text-red-500">
+<div class="fixed top-0 w-full flex flex-col justify-center items-center ">
+    <span class="bg-white p-4 rounded-b-lg text-red-500">
         因为多数IPTV源有跨域问题, 需要安装浏览器插件解决, 如
         {#each Addones as addone }
             <a href={addone.url} target="_blank" class="text-sm text-blue-400">{addone.name}</a>
@@ -69,8 +69,8 @@
     </span>
 </div>
 
-<div class="w-full h-full flex justify-center items-center">
-    <div class="w-1/3 h-1/4 border-2 rounded-xl flex flex-col px-6 {borderColor}">
+<div class="w-full h-full flex justify-center items-center ">
+    <div class="w-1/3 h-1/4 border-2 rounded-xl flex flex-col px-6 {borderColor} bg-white">
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div
             class="flex-1 flex justify-center items-center">

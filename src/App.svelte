@@ -3,7 +3,7 @@
   import routes from './routes';
 </script>
 
-<main class="w-full h-full">
+<main class="w-full h-full bg-stone-200">
   <Router {routes} />
 </main>
 

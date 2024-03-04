@@ -2,7 +2,7 @@
     import { createEventDispatcher } from "svelte"
     export let icon: string
     export let text: string
-    export let mode: string = "switcher"
+    export let mode: string = "button"
     export let active = false
 
     const dispatcher = createEventDispatcher<{
@@ -20,7 +20,7 @@
     }
 
 </script>
-<button class="{active ? 'text-blue-400' : 'text-white'} flex flex-col items-center justify-center w-full py-4 active:text-blue-400" on:click={() => onClick()}>
-    <span class="{icon} text-3xl"></span>
+<button class="text-stone-600 active:text-sky-600 flex flex-col items-center justify-center" on:click={() => onClick()}>
+    <span class="{icon} text-2xl"></span>
     <span class="text-xs">{text}</span>
 </button>
